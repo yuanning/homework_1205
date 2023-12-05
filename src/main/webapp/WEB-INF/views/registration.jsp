@@ -34,7 +34,7 @@
 <body>
 
 <div class="limiter" id="login">
-    <div class="container-login100" style="background-image:url(https://image.freepik.com/free-photo/happy-woman-doing-online-shopping-home_329181-4301.jpg)">
+    <div class="container-login100" style="background-image:url(${contextPath}/resources/image/office-supplies.jpg)">
         <div class="container">
             <div class="row">
                 <div class="col-md-6"></div>
