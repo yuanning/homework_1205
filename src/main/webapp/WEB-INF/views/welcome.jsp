@@ -1,9 +1,5 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.hellokoding.auth.model.UserImage" %>
-<%@ page import="java.io.ByteArrayInputStream" %>
-<%@ page import="javax.imageio.ImageIO" %>
-<%@ page import="java.awt.image.BufferedImage" %>
-<%@ page import="java.io.OutputStream" %>
 <%@ page import="com.hellokoding.auth.model.UserVideo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
