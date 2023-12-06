@@ -42,14 +42,48 @@
                     <div class="login_topimg">
                     </div>
                     <div class="wrap-login100">
-                        <form class="login100-form validate-form"> <span class="login100-form-title "> Create </span> <span class="login100-form-subtitle m-b-16"> your account </span>
-                            <div class="wrap-input100 validate-input m-b-16" data-validate="Valid email is required: ex@abc.xyz"> <input class="input100" type="text" name="Username" placeholder="Username"> <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-user"></span> </span> </div>
-                            <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required"> <input class="input100" type="password" name="pass" placeholder="Password"> <span class="focus-input100"></span> <span class="symbol-input100"> <span class="glyphicon glyphicon-lock"></span> </span> </div>
-                            <div class="flex-sb-m w-full p-b-30">
+                        <form:form method="POST" modelAttribute="userForm" class="login100-form validate-form">
 
+                            <div class="wrap-input100 validate-input m-b-16" >
+                                <spring:bind path="username">
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="text" path="username" class="form-control" placeholder="Username"
+                                                    autofocus="true"></form:input>
+                                        <form:errors path="username"></form:errors>
+                                    </div>
+                                </spring:bind>
+<%--                                <span class="focus-input100"></span> --%>
+<%--                                <span class="symbol-input100"> <span class="glyphicon glyphicon-user"></span>--%>
+<%--                            </span>--%>
                             </div>
-                            <div class="container-login100-form-btn p-t-25"> <button class="login100-form-btn"> Submit </button> </div>
-                        </form>
+
+                            <div class="wrap-input100 validate-input m-b-16" >
+                                <spring:bind path="password">
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>
+                                        <form:errors path="password"></form:errors>
+                                    </div>
+                                </spring:bind>
+<%--                                <span class="focus-input100"></span>--%>
+<%--                                <span class="symbol-input100"> <span class="glyphicon glyphicon-lock"></span>--%>
+<%--                                </span>--%>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-16" >
+                                <spring:bind path="passwordConfirm">
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="password" path="passwordConfirm" class="form-control"
+                                                    placeholder="Confirm your password"></form:input>
+                                        <form:errors path="passwordConfirm"></form:errors>
+                                    </div>
+                                </spring:bind>
+<%--                                <span class="focus-input100"></span>--%>
+<%--                                <span class="symbol-input100"> <span class="glyphicon glyphicon-lock"></span>--%>
+<%--                                </span>--%>
+                            </div>
+
+                            <div class="container-login100-form-btn p-t-25"> <button class="login100-form-btn" type="submit"> Submit </button> </div>
+                        </form:form>
                     </div>
                 </div>
             </div>
