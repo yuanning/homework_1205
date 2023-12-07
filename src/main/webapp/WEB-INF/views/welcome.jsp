@@ -1,4 +1,6 @@
 <%@ page import="java.util.List" %>
+<%@ page import="com.hellokoding.auth.model.UserImage" %>
+<%@ page import="com.hellokoding.auth.model.UserVideo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -11,13 +13,9 @@
     <meta name="generator" content="Hugo 0.118.2">
     <title>Album example · Bootstrap v5.3</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
-
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
     <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -30,6 +28,10 @@
 
 
     <style>
+        .image-list, .video-list {
+            display: none;
+        }
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -112,6 +114,8 @@
 </head>
 <body>
 
+<div class="container">
+
 <main>
 
     <section class="py-5 text-center container">
@@ -120,53 +124,303 @@
                 <h1 class="fw-light">Multimedia resource sharing platform</h1>
                 <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
                 <p>
-                    <a href="#" class="btn btn-primary my-2">Documents</a>
-                    <a href="#" class="btn btn-secondary my-2">Pictures</a>
-                    <a href="#" class="btn btn-secondary my-2">Videos</a>
-                    <a href="#" class="btn btn-secondary my-2">Translate</a>
+                    <a href="#" class="btn btn-secondary my-2" onclick="clickPic()" id="picBtn">Pictures</a>
+                    <a href="#" class="btn btn-secondary my-2" onclick="clickVideo()" id="vidBtn">Videos</a>
+                    <a href="#" class="btn btn-primary my-2" onclick="clickDoc()" id="docBtn">Documents</a>
+                    <a href="#" class="btn btn-secondary my-2" onclick="clickTranslate()" id="TraBtn">Translate</a>
                 </p>
             </div>
         </div>
     </section>
 
-    <div class="album py-5 bg-body-tertiary">
-        <div class="container">
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        Open Upload Image Modal
+    </button>
 
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                </div>
-                                <small class="text-body-secondary">9 mins</small>
-                            </div>
-                        </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Image File Upload</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <label class="form-label" for="fileUpload">Choose Image File：</label>
+                        <input type="file" class="form-control" id="fileUpload">
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="imageUploadBtn">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+        Open Upload Video Modal
+    </button>
 
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel2">Video File Upload</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <label class="form-label" for="fileUpload2">Choose Video File：</label>
+                        <input type="file" class="form-control" id="fileUpload2">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="imageUploadBtn2">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-list">
+        <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <% for (UserImage image : (List<UserImage>) request.getAttribute("imageList")) { %>
+
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="data:image/jpeg;base64,<%= image.getImageBase64() %>" class="card-img-top" alt="..." />
+                                <div class="card-body">
+                                    <p class="card-text"><%= image.getImageName() %></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deleteImage('<%= image.getId() %>')">Delete image</button>
+                                        </div>
+                                        <small class="text-body-secondary"><%=image.getCreatedAt()%></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-list">
+        <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+
+                <div >
+                    <% for (UserVideo userVideo : (List<UserVideo>) request.getAttribute("videoList")) { %>
+
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <video src="data:video/mp4;base64,<%= userVideo.getVideoBase64() %>" class="card-img-top" controls />
+                            <div class="card-body">
+                                <p class="card-text"><%=userVideo.getVideoName() %></p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deleteVideo('<%= userVideo.getId() %>')">Delete Video</button>
+                            </div>
+                            <small class="text-body-secondary"><%=userVideo.getCreatedAt()%></small>
+                        </div>
+                    </div>
+                    <% } %>
+
+                </div>
             </div>
         </div>
     </div>
 
 </main>
+</div>
 
-<footer class="text-body-secondary py-5">
-    <div class="container">
-        <p class="float-end mb-1">
-            <a href="#">Back to top</a>
-        </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
-    </div>
-</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<script>
+    <!-- define server host -->
+    serverHost = "http://localhost:8080";
+
+    function changeList() {
+        var typeSelect = document.getElementById("typeSelect");
+        var imageList = document.querySelector(".image-list");
+        var videoList = document.querySelector(".video-list");
+
+        if (typeSelect.value === "image") {
+            imageList.style.display = "flex";
+            videoList.style.display = "none";
+        } else if (typeSelect.value === "video") {
+            imageList.style.display = "none";
+            videoList.style.display = "flex";
+        }
+    }
+
+    function clickPic() {
+        var videoList = document.querySelector(".video-list");
+        var imageList = document.querySelector(".image-list");
+        imageList.style.display = "flex";
+        videoList.style.display = "none";
+
+    }
+
+    function clickVideo() {
+        var videoList = document.querySelector(".video-list");
+        var imageList = document.querySelector(".image-list");
+        imageList.style.display = "none";
+        videoList.style.display = "flex";
+    }
+
+    function clickDoc() {
+
+    }
+
+    function clickTranslate() {
+
+    }
+
+    $(document).ready(function() {
+
+        $("#imageUploadBtn").click(function() {
+            // 获取文件名和文件数据
+            var fileName = $("#fileName").val();
+            var fileData = $("#fileUpload")[0].files[0];
+
+            // 创建FormData对象，并将文件数据添加到其中
+            var formData = new FormData();
+            formData.append("file", fileData);
+
+            // 发送文件数据到后端接口
+            $.ajax({
+                url: serverHost+"/imageUpload",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // 处理成功响应
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // 处理错误响应
+                    console.error(error);
+                }
+            });
+        });
+
+        $("#imageUploadBtn2").click(function() {
+            // 获取文件名和文件数据
+            var fileName = $("#fileName").val();
+            var fileData = $("#fileUpload2")[0].files[0];
+
+            // 创建FormData对象，并将文件数据添加到其中
+            var formData = new FormData();
+            formData.append("file", fileData);
+
+            // 发送文件数据到后端接口
+            $.ajax({
+                url: serverHost+"/videoUpload",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // 处理成功响应
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // 处理错误响应
+                    console.error(error);
+                }
+            });
+        });
+
+        $("#picBtn").click(function() {
+            // 移除原有的次要按钮样式类
+            $("#picBtn").removeClass("btn-secondary");
+            // 添加主要按钮样式类
+            $("#picBtn").addClass("btn-primary");
+
+            $("#vidBtn").addClass("btn-secondary");
+            $("#vidBtn").removeClass("btn-primary");
+
+            $("#docBtn").addClass("btn-secondary");
+            $("#docBtn").removeClass("btn-primary");
+
+            $("#TraBtn").addClass("btn-secondary");
+            $("#TraBtn").removeClass("btn-primary");
+        });
+
+        $("#vidBtn").click(function() {
+            // 移除原有的次要按钮样式类
+            $("#vidBtn").removeClass("btn-secondary");
+            // 添加主要按钮样式类
+            $("#vidBtn").addClass("btn-primary");
+
+            $("#picBtn").addClass("btn-secondary");
+            $("#picBtn").removeClass("btn-primary");
+
+            $("#docBtn").addClass("btn-secondary");
+            $("#docBtn").removeClass("btn-primary");
+
+            $("#TraBtn").addClass("btn-secondary");
+            $("#TraBtn").removeClass("btn-primary");
+        });
+    });
+
+    function deleteImage(imageId) {
+        // 发送删除请求到后端接口
+        $.ajax({
+            url: serverHost+"/deleteImage",
+            type: "DELETE",
+            data: JSON.stringify({"imageId": imageId}),
+            contentType: "application/json",
+            success: function(response) {
+                // 处理成功响应
+                location.reload(); // 刷新当前页面
+            },
+            error: function(xhr, status, error) {
+                // 处理错误响应
+                console.error(error);
+            }
+        });
+    }
+
+
+    function deleteVideo(videoId) {
+        // 发送删除请求到后端接口
+        $.ajax({
+            url: serverHost+"/deleteVideo",
+            type: "DELETE",
+            data: JSON.stringify({"videoId": videoId}),
+            contentType: "application/json",
+            success: function(response) {
+                // 处理成功响应
+                location.reload(); // 刷新当前页面
+            },
+            error: function(xhr, status, error) {
+                // 处理错误响应
+                console.error(error);
+            }
+        });
+    }
+</script>
 </body>
 </html>
