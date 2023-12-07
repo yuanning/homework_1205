@@ -1,10 +1,12 @@
 package com.hellokoding.auth.web;
 
+import com.hellokoding.auth.dto.DocDto;
 import com.hellokoding.auth.dto.ImageDto;
 import com.hellokoding.auth.dto.VideoDto;
 import com.hellokoding.auth.mapper.UserImageMapper;
 import com.hellokoding.auth.mapper.UserMapper;
 import com.hellokoding.auth.model.User;
+import com.hellokoding.auth.model.UserDoc;
 import com.hellokoding.auth.model.UserImage;
 import com.hellokoding.auth.model.UserVideo;
 import com.hellokoding.auth.service.SecurityService;
@@ -20,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class UserController {
     public String welcome(HttpServletRequest request) {
         request.setAttribute("imageList", getImageListFromBackend(request));
         request.setAttribute("videoList", getVideoListFromBackend(request));
+        request.setAttribute("docList", getDocListFromBackend(request));
 
         return "welcome";
     }
@@ -144,6 +146,36 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/docUpload", method = RequestMethod.POST)
+    public String docUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        // 处理上传的文件
+        if (!file.isEmpty()) {
+            try {
+                // 获取文件名
+                String fileName = file.getOriginalFilename();
+                // 获取文件数据
+                byte[] fileData = file.getBytes();
+
+                // 在此处执行你希望进行的文件处理操作
+                UserDoc userDoc = new UserDoc();
+                userDoc.setDocData(fileData);
+                userDoc.setDocName(fileName);
+                //get current User Info
+                String userName = request.getUserPrincipal().getName();
+                User user = userMapper.findByUsername(userName);
+                userDoc.setUserId(Integer.parseInt(String.valueOf(user.getId())));
+                userService.insertDocData(userDoc);
+
+                return "redirect:/welcome";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/welcome";
+            }
+        } else {
+            return "redirect:/welcome";
+        }
+    }
+
     @RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteImage(@RequestBody ImageDto imageDto, HttpServletRequest request) {
@@ -159,6 +191,15 @@ public class UserController {
         String userName = request.getUserPrincipal().getName();
         User user = userMapper.findByUsername(userName);
         userImageMapper.deleteVideo(videoDto.getVideoId(), user.getId());
+        return "welcome";
+    }
+
+    @RequestMapping(value = "/deleteDoc", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteDoc(@RequestBody DocDto docDto, HttpServletRequest request) {
+        String userName = request.getUserPrincipal().getName();
+        User user = userMapper.findByUsername(userName);
+        userImageMapper.deleteDoc(docDto.getDocId(), user.getId());
         return "welcome";
     }
 
@@ -187,6 +228,21 @@ public class UserController {
         if (!CollectionUtils.isEmpty(list)) {
             for (UserVideo userVideo : list) {
                 userVideo.setVideoBase64(Base64.getEncoder().encodeToString(userVideo.getVideoData()));
+            }
+        }
+        return list;
+    }
+
+    private List<UserDoc> getDocListFromBackend(HttpServletRequest request) {
+        // 在这里编写获取文档列表数据的逻辑
+        //get current User Info
+        String userName = request.getUserPrincipal().getName();
+        User user = userMapper.findByUsername(userName);
+
+        List<UserDoc> list = userImageMapper.findDocByUserId(user.getId());
+        if (!CollectionUtils.isEmpty(list)) {
+            for (UserDoc userDoc : list) {
+                userDoc.setDocBase64(Base64.getEncoder().encodeToString(userDoc.getDocData()));
             }
         }
         return list;

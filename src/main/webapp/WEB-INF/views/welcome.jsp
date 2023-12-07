@@ -1,10 +1,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.hellokoding.auth.model.UserImage" %>
 <%@ page import="com.hellokoding.auth.model.UserVideo" %>
+<%@ page import="com.hellokoding.auth.model.UserDoc" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
-<head><script src="https://getbootstrap.com/docs/5.3/assets/js/color-modes.js"></script>
+<head>
+    <script src="https://getbootstrap.com/docs/5.3/assets/js/color-modes.js"></script>
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -24,11 +29,13 @@
     <link rel="manifest" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/manifest.json">
     <link rel="mask-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon.ico">
+
+
     <meta name="theme-color" content="#712cf9">
 
 
     <style>
-        .image-list, .video-list {
+        .image-list, .video-list, .doc-list {
             display: none;
         }
 
@@ -150,7 +157,7 @@
                 <div class="modal-body">
                     <div class="custom-file">
                         <label class="form-label" for="fileUpload">Choose Image File：</label>
-                        <input type="file" class="form-control" id="fileUpload">
+                        <input type="file" class="form-control" id="fileUpload" accept=".jpg">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -177,12 +184,39 @@
                 <div class="modal-body">
                     <div class="custom-file">
                         <label class="form-label" for="fileUpload2">Choose Video File：</label>
-                        <input type="file" class="form-control" id="fileUpload2">
+                        <input type="file" class="form-control" id="fileUpload2" accept=".mp4">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="imageUploadBtn2">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">
+        Open Upload Document Modal
+    </button>
+
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel3">Document File Upload</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <label class="form-label" for="fileUpload3">Choose Document File：</label>
+                        <input type="file" class="form-control" id="fileUpload3" accept=".pdf">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="imageUploadBtn3">Upload</button>
                 </div>
             </div>
         </div>
@@ -244,6 +278,37 @@
         </div>
     </div>
 
+    <div class="doc-list">
+        <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+
+                <div >
+                    <% for (UserDoc userDoc : (List<UserDoc>) request.getAttribute("docList")) { %>
+
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="https://t3.ftcdn.net/jpg/05/00/52/34/360_F_500523475_qM54U8XIbdhHPouvNmu4bjrBpD6wrlSv.jpg" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <p class="card-text"><%= userDoc.getDocName() %></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deleteDoc('<%= userDoc.getId() %>')">Delete Doc</button>
+<%--                                        <button onclick="printPDF('<%= userDoc.getDocBase64() %>')">OpenPDF</button>--%>
+                                        <button type="button" onclick="openPDF('<%= userDoc.getDocBase64() %>')">OpenPDF</button>
+                                    </div>
+                                    <small class="text-body-secondary"><%=userDoc.getCreatedAt()%></small>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 </div>
 
@@ -276,20 +341,28 @@
     function clickPic() {
         var videoList = document.querySelector(".video-list");
         var imageList = document.querySelector(".image-list");
+        var docList = document.querySelector(".doc-list");
         imageList.style.display = "flex";
         videoList.style.display = "none";
-
+        docList.style.display = "none";
     }
 
     function clickVideo() {
         var videoList = document.querySelector(".video-list");
         var imageList = document.querySelector(".image-list");
+        var docList = document.querySelector(".doc-list");
         imageList.style.display = "none";
         videoList.style.display = "flex";
+        docList.style.display = "none";
     }
 
     function clickDoc() {
-
+        var videoList = document.querySelector(".video-list");
+        var imageList = document.querySelector(".image-list");
+        var docList = document.querySelector(".doc-list");
+        imageList.style.display = "none";
+        videoList.style.display = "none";
+        docList.style.display = "flex";
     }
 
     function clickTranslate() {
@@ -337,6 +410,33 @@
             // 发送文件数据到后端接口
             $.ajax({
                 url: serverHost+"/videoUpload",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // 处理成功响应
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // 处理错误响应
+                    console.error(error);
+                }
+            });
+        });
+
+        $("#imageUploadBtn3").click(function() {
+            // 获取文件名和文件数据
+            var fileName = $("#fileName").val();
+            var fileData = $("#fileUpload3")[0].files[0];
+
+            // 创建FormData对象，并将文件数据添加到其中
+            var formData = new FormData();
+            formData.append("file", fileData);
+
+            // 发送文件数据到后端接口
+            $.ajax({
+                url: serverHost+"/docUpload",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -421,6 +521,49 @@
             }
         });
     }
+
+    function deleteDoc(docId) {
+        // 发送删除请求到后端接口
+        $.ajax({
+            url: serverHost+"/deleteDoc",
+            type: "DELETE",
+            data: JSON.stringify({"docId": docId}),
+            contentType: "application/json",
+            success: function(response) {
+                // 处理成功响应
+                location.reload(); // 刷新当前页面
+            },
+            error: function(xhr, status, error) {
+                // 处理错误响应
+                console.error(error);
+            }
+        });
+    }
+
+    function printPDF(base64) {
+        printJS({
+            printable: base64,
+            type: "pdf",
+            base64: true
+        });
+    }
+
+    //open the new tab to show the PDF document
+    function openPDF(base64) {
+        var newPage = window.open('', '_blank');
+
+        // 创建 embed 元素
+        var embedElement = document.createElement('embed');
+
+        // 设置 embed 元素的属性
+        embedElement.src = 'data:application/pdf;base64,'+base64; // 替换为实际的文件路径
+        embedElement.type = 'application/pdf';
+        embedElement.style = 'width: 100%; height: 100%';
+
+        //将动态生成的 embed 元素添加到新页面
+        newPage.document.body.appendChild(embedElement);
+    }
+
 </script>
 </body>
 </html>

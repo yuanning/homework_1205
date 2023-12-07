@@ -2,6 +2,7 @@ package com.hellokoding.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hellokoding.auth.model.User;
+import com.hellokoding.auth.model.UserDoc;
 import com.hellokoding.auth.model.UserImage;
 import com.hellokoding.auth.model.UserVideo;
 import org.apache.ibatis.annotations.Delete;
@@ -27,4 +28,10 @@ public interface UserImageMapper extends BaseMapper<UserImage> {
     @Delete("DELETE FROM user_videos WHERE id = #{videoId} AND user_id = #{userId}")
     void deleteVideo(@Param("videoId") int videoId, @Param("userId") int userId);
 
+    int insertDocFile(UserDoc userDoc);
+
+    List<UserDoc> findDocByUserId(@Param("userId") int userId);
+
+    @Delete("DELETE FROM user_docs WHERE id = #{docId} AND user_id = #{userId}")
+    void deleteDoc(@Param("docId") int docId, @Param("userId") int userId);
 }

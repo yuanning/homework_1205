@@ -1,6 +1,7 @@
 package com.hellokoding.auth.service;
 
 import com.hellokoding.auth.model.User;
+import com.hellokoding.auth.model.UserDoc;
 import com.hellokoding.auth.model.UserImage;
 import com.hellokoding.auth.model.UserVideo;
 
@@ -12,4 +13,6 @@ public interface UserService {
     void insertImageData(UserImage userImage);
 
     void insertVideoData(UserVideo userVideo);
+
+    void insertDocData(UserDoc userDoc);
 }

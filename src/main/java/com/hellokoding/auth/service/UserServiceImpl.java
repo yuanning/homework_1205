@@ -3,6 +3,7 @@ package com.hellokoding.auth.service;
 import com.hellokoding.auth.mapper.UserImageMapper;
 import com.hellokoding.auth.mapper.UserMapper;
 import com.hellokoding.auth.model.User;
+import com.hellokoding.auth.model.UserDoc;
 import com.hellokoding.auth.model.UserImage;
 import com.hellokoding.auth.model.UserVideo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,11 @@ public class UserServiceImpl implements UserService {
     public void insertVideoData(UserVideo userVideo) {
         userVideo.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         userImageMapper.insertVideoFile(userVideo);
+    }
+
+    @Override
+    public void insertDocData(UserDoc userDoc) {
+        userDoc.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        userImageMapper.insertDocFile(userDoc);
     }
 }
