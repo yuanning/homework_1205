@@ -134,7 +134,7 @@
                     <a href="#" class="btn btn-secondary my-2" onclick="clickPic()" id="picBtn">Pictures</a>
                     <a href="#" class="btn btn-secondary my-2" onclick="clickVideo()" id="vidBtn">Videos</a>
                     <a href="#" class="btn btn-primary my-2" onclick="clickDoc()" id="docBtn">Documents</a>
-                    <a href="#" class="btn btn-secondary my-2" onclick="clickTranslate()" id="TraBtn">Translate</a>
+                    <a href="${pageContext.request.contextPath}/translatePage" target="_blank" class="btn btn-secondary my-2" id="TraBtn">Translate</a>
                 </p>
             </div>
         </div>

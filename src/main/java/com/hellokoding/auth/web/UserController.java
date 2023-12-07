@@ -86,6 +86,12 @@ public class UserController {
         return "welcome";
     }
 
+    @RequestMapping(value = {"/translatePage"}, method = RequestMethod.GET)
+    public String translatePage(HttpServletRequest request) {
+        return "translate";
+    }
+
+
     @RequestMapping(value = "/imageUpload", method = RequestMethod.POST)
     public String imageUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         // 处理上传的文件
