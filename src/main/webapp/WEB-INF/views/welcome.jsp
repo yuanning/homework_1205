@@ -1,340 +1,172 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.hellokoding.auth.model.UserImage" %>
-<%@ page import="com.hellokoding.auth.model.UserVideo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>JSP Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<html lang="en" data-bs-theme="auto">
+<head><script src="https://getbootstrap.com/docs/5.3/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.118.2">
+    <title>Album example · Bootstrap v5.3</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+    <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#712cf9">
+
 
     <style>
-        .image-list, .video-list {
-            display: none;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
 
-        :root {
-            --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important;
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
         }
 
-        body {
-            background: #111 !important;
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
         }
 
-        .card {
-            background: #222;
-            border: 1px solid #dd2476;
-            color: rgba(250, 250, 250, 0.8);
-            margin-bottom: 2rem;
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
         }
 
-        .btn {
-            border: 5px solid;
-            border-image-slice: 1;
-            background: var(--gradient) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            border-image-source:  var(--gradient) !important;
-            text-decoration: none;
-            transition: all .4s ease;
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
         }
 
-        .btn:hover, .btn:focus {
-            background: var(--gradient) !important;
-            -webkit-background-clip: none !important;
-            -webkit-text-fill-color: #fff !important;
-            border: 5px solid #fff !important;
-            box-shadow: #222 1px 0 10px;
-            text-decoration: underline;
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
         }
 
-        #logoutBtn:hover, #logoutBtn:focus {
-            background: var(--gradient) !important;
-            -webkit-background-clip: none !important;
-            -webkit-text-fill-color: #fff !important;
-            border: 5px solid #fff !important;
-            box-shadow: #222 1px 0 10px;
-            text-decoration: underline;
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+        .bd-mode-toggle .dropdown-menu .active .bi {
+            display: block !important;
         }
     </style>
+
+
 </head>
 <body>
-<div class="container">
 
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
+<main>
 
-        <h2 class="text-danger">Welcome ${pageContext.request.userPrincipal.name} | <a id="logoutBtn" onclick="document.forms['logoutForm'].submit()" style="cursor:pointer">Logout</a></h2>
-
-    </c:if>
-
-    <h1 class="text-danger">Toggle Lists Based on Type</h1>
-
-    <div class="mb-3">
-        <label for="typeSelect" class="form-label">Type</label>
-        <select id="typeSelect" class="selectpicker" data-style="btn-danger" onchange="changeList()">
-            <option value="default">Please choose a type</option>
-            <option value="image">Image</option>
-            <option value="video">Video</option>
-        </select>
-    </div>
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Open Upload Image Modal
-    </button>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Image File Upload</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="fileUpload">
-                        <label class="custom-file-label" for="fileUpload">Choose Image File：</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="imageUploadBtn">Upload</button>
-                </div>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Multimedia resource sharing platform</h1>
+                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+                <p>
+                    <a href="#" class="btn btn-primary my-2">Documents</a>
+                    <a href="#" class="btn btn-secondary my-2">Pictures</a>
+                    <a href="#" class="btn btn-secondary my-2">Videos</a>
+                    <a href="#" class="btn btn-secondary my-2">Translate</a>
+                </p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
-        Open Upload Video Modal
-    </button>
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
 
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel2">Video File Upload</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="fileUpload2">
-                        <label class="custom-file-label" for="fileUpload2">Choose Video File：</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="imageUploadBtn2">Upload</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-    <div class="image-list">
-        <%-- Display image list here --%>
-<%--        <ul>--%>
-
-
-<%--            <% for (UserImage image : (List<UserImage>) request.getAttribute("imageList")) { %>--%>
-<%--&lt;%&ndash;            <li><img src="<%= image.getImageData() %>" alt="Image"></li>&ndash;%&gt;--%>
-<%--                <li>--%>
-<%--                    <p><%= image.getImageName() %></p>--%>
-<%--                    <img src="data:image/jpeg;base64,<%= image.getImageBase64() %>" alt="Image">--%>
-<%--                    <button onclick="deleteImage('<%= image.getId() %>')">删除</button> <!-- 添加删除按钮 -->--%>
-<%--                </li>--%>
-<%--            <% } %>--%>
-<%--        </ul>--%>
-
-
-<%--        <div class="row">--%>
-
-<%--             <% for (UserImage image : (List<UserImage>) request.getAttribute("imageList")) { %>--%>
-<%--             <div class="col-sm col-xs-12">--%>
-<%--                 <div class="card" style="width: 18rem;">--%>
-<%--                     <img class="card-img-top" src="data:image/jpeg;base64,<%= image.getImageBase64() %>" alt="Card image cap">--%>
-<%--                     <div class="card-body">--%>
-<%--                         <p class="card-text"><%= image.getImageName() %></p>--%>
-<%--                     </div>--%>
-<%--                     <div class="card-body">--%>
-<%--                         <a href="#" class="card-link" onclick="deleteImage('<%= image.getId() %>')">Delete image</a>--%>
-<%--                     </div>--%>
-<%--                 </div>--%>
-<%--             </div>--%>
-<%--             <% } %>--%>
-<%--        </div>--%>
-
-            <div class="container mx-auto mt-4">
-                <div class="row">
-
-            <% for (UserImage image : (List<UserImage>) request.getAttribute("imageList")) { %>
-                    <div class="col-md-4">
-                        <div class="card" style="width: 18rem;">
-                            <img src="data:image/jpeg;base64,<%= image.getImageBase64() %>" class="card-img-top" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title"><%= image.getImageName() %></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"><%=image.getCreatedAt()%></h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn mr-2" onclick="deleteImage('<%= image.getId() %>')"><i class="fas fa-link"></i> Delete image</a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <% } %>
-
-                </div>
-            </div>
-    </div>
-
-    <div class="video-list">
-        <div class="container mx-auto mt-4">
-            <div class="row">
-
-                <% for (UserVideo video : (List<UserVideo>) request.getAttribute("videoList")) { %>
-                <div class="col-md-4">
-                    <div class="card" style="width: 18rem;">
-                        <video src="data:video/mp4;base64,<%= video.getVideoBase64() %>" class="card-img-top" controls />
-
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                         <div class="card-body">
-                            <h5 class="card-title"><%= video.getVideoName() %></h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><%=video.getCreatedAt()%></h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn mr-2" onclick="deleteVideo('<%= video.getId() %>')"><i class="fas fa-link"></i> Delete Video</a>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </div>
+                                <small class="text-body-secondary">9 mins</small>
+                            </div>
                         </div>
-
                     </div>
                 </div>
-                <% } %>
+
 
             </div>
         </div>
     </div>
-</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-<script>
-    <!-- define server host -->
-    serverHost = "http://172.208.8.130:8080";
+</main>
 
-    function changeList() {
-        var typeSelect = document.getElementById("typeSelect");
-        var imageList = document.querySelector(".image-list");
-        var videoList = document.querySelector(".video-list");
+<footer class="text-body-secondary py-5">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a href="#">Back to top</a>
+        </p>
+        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
+    </div>
+</footer>
+<script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-        if (typeSelect.value === "image") {
-            imageList.style.display = "flex";
-            videoList.style.display = "none";
-        } else if (typeSelect.value === "video") {
-            imageList.style.display = "none";
-            videoList.style.display = "flex";
-        }
-    }
-
-    $(document).ready(function() {
-
-        $("#imageUploadBtn").click(function() {
-            // 获取文件名和文件数据
-            var fileName = $("#fileName").val();
-            var fileData = $("#fileUpload")[0].files[0];
-
-            // 创建FormData对象，并将文件数据添加到其中
-            var formData = new FormData();
-            formData.append("file", fileData);
-
-            // 发送文件数据到后端接口
-            $.ajax({
-                url: serverHost+"/imageUpload",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // 处理成功响应
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // 处理错误响应
-                    console.error(error);
-                }
-            });
-        });
-
-        $("#imageUploadBtn2").click(function() {
-            // 获取文件名和文件数据
-            var fileName = $("#fileName").val();
-            var fileData = $("#fileUpload2")[0].files[0];
-
-            // 创建FormData对象，并将文件数据添加到其中
-            var formData = new FormData();
-            formData.append("file", fileData);
-
-            // 发送文件数据到后端接口
-            $.ajax({
-                url: serverHost+"/videoUpload",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // 处理成功响应
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // 处理错误响应
-                    console.error(error);
-                }
-            });
-        });
-
-    });
-
-    function deleteImage(imageId) {
-        // 发送删除请求到后端接口
-        $.ajax({
-            url: serverHost+"/deleteImage",
-            type: "DELETE",
-            data: JSON.stringify({"imageId": imageId}),
-            contentType: "application/json",
-            success: function(response) {
-                // 处理成功响应
-                location.reload(); // 刷新当前页面
-            },
-            error: function(xhr, status, error) {
-                // 处理错误响应
-                console.error(error);
-            }
-        });
-    }
-
-
-    function deleteVideo(videoId) {
-        // 发送删除请求到后端接口
-        $.ajax({
-            url: serverHost+"/deleteVideo",
-            type: "DELETE",
-            data: JSON.stringify({"videoId": videoId}),
-            contentType: "application/json",
-            success: function(response) {
-                // 处理成功响应
-                location.reload(); // 刷新当前页面
-            },
-            error: function(xhr, status, error) {
-                // 处理错误响应
-                console.error(error);
-            }
-        });
-    }
-</script>
 </body>
 </html>
