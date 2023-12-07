@@ -3,13 +3,10 @@
 
 <head>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Teko:400,700" rel="stylesheet">
@@ -114,7 +111,7 @@
                     </div>
                     <div>
 
-                        <button type="button" class="btn btn-default submit"><i class="fa fa-globe" aria-hidden="true"></i>translate</button>
+                        <button type="button" class="btn btn-default submit" id="translateBtn"><i class="fa fa-globe" aria-hidden="true"></i>translate</button>
                     </div>
 
                 </div>
@@ -122,5 +119,31 @@
         </div></div>
 </section>
 </body>
+
+<script>
+    <!-- define server host -->
+    serverHost = "http://localhost:8080";
+
+
+    $(document).ready(function(){
+        $("#translateBtn").click(function() {
+            $.ajax({
+                url: serverHost+"/translate?text="+$("#original").val(),
+                type: "GET",
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    $("#translated").val(response);
+                },
+                error: function(xhr, status, error) {
+                    // 处理错误响应
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+
+</script>
 
 </html>

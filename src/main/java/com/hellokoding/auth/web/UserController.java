@@ -9,6 +9,7 @@ import com.hellokoding.auth.model.User;
 import com.hellokoding.auth.model.UserDoc;
 import com.hellokoding.auth.model.UserImage;
 import com.hellokoding.auth.model.UserVideo;
+import com.hellokoding.auth.service.AzureTranslateService;
 import com.hellokoding.auth.service.SecurityService;
 import com.hellokoding.auth.service.UserService;
 import com.hellokoding.auth.validator.UserValidator;
@@ -42,6 +43,9 @@ public class UserController {
 
     @Autowired
     private UserImageMapper userImageMapper;
+
+    @Autowired
+    private AzureTranslateService azureTranslateServiceImpl;
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -253,4 +257,11 @@ public class UserController {
         }
         return list;
     }
+
+    @RequestMapping(value = "/translate", method = RequestMethod.GET)
+    @ResponseBody
+    private String translate(@RequestParam("text") String text) {
+        return azureTranslateServiceImpl.translate(text);
+    }
+
 }

@@ -129,7 +129,7 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Multimedia resource sharing platform</h1>
-                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+<%--                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>--%>
                 <p>
                     <a href="#" class="btn btn-secondary my-2" onclick="clickPic()" id="picBtn">Pictures</a>
                     <a href="#" class="btn btn-secondary my-2" onclick="clickVideo()" id="vidBtn">Videos</a>
@@ -479,6 +479,22 @@
 
             $("#docBtn").addClass("btn-secondary");
             $("#docBtn").removeClass("btn-primary");
+
+            $("#TraBtn").addClass("btn-secondary");
+            $("#TraBtn").removeClass("btn-primary");
+        });
+
+        $("#docBtn").click(function() {
+            // 移除原有的次要按钮样式类
+            $("#docBtn").removeClass("btn-secondary");
+            // 添加主要按钮样式类
+            $("#docBtn").addClass("btn-primary");
+
+            $("#picBtn").addClass("btn-secondary");
+            $("#picBtn").removeClass("btn-primary");
+
+            $("#vidBtn").addClass("btn-secondary");
+            $("#vidBtn").removeClass("btn-primary");
 
             $("#TraBtn").addClass("btn-secondary");
             $("#TraBtn").removeClass("btn-primary");
