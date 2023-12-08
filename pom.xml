@@ -5,7 +5,7 @@
     <name>reg_log_func</name>
     <description>reg_log_func</description>
 
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

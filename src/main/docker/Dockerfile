@@ -5,7 +5,7 @@ FROM tomcat:9.0.83-jdk8-corretto-al2
 WORKDIR /app
 
 # Copy the packaged JAR file into the container
-COPY auth-2.5.15.war app.war
+COPY reg_log_func-2.5.15.war app.war
 
 # Copy the JSP files into the container
 #COPY src/main/webapp/ /app/src/main/webapp/

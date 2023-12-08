@@ -322,7 +322,7 @@
 
 <script>
     <!-- define server host -->
-    serverHost = "http://localhost:8080";
+    serverHost = "http://20.243.137.136:8080";
 
     function changeList() {
         var typeSelect = document.getElementById("typeSelect");
